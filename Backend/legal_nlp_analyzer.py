@@ -1,6 +1,6 @@
+import sys
 import spacy
 from spacy.matcher import Matcher
-from spacy.tokens import Span
 
 # Load the English language model
 nlp = spacy.load("en_core_web_sm")
@@ -66,19 +66,16 @@ def analyze_legal_text(text):
     
     return results
 
-# Example usage
-terms_and_conditions = """
-Please read the following terms and conditions carefully. 
-By using our service, you agree to be bound by these terms. 
-We may update these terms at our discretion. 
-You waive your right to a jury trial in any dispute. 
-We are not liable for any damages arising from the use of our service. 
-You have the option to cancel your subscription at any time.
-"""
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Please provide the text to analyze as a command-line argument.")
+        sys.exit(1)
 
-analysis_results = analyze_legal_text(terms_and_conditions)
+    input_text = sys.argv[1]
+    analysis_results = analyze_legal_text(input_text)
 
-for result in analysis_results:
-    print(f"Classification: {result['classification']}")
-    print(f"Text: {result['text']}")
-    print()
+    print("Text Analysis Results:")
+    for result in analysis_results:
+        print(f"Classification: {result['classification']}")
+        print(f"Text: {result['text']}")
+        print()
